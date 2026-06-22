@@ -1,0 +1,931 @@
+{
+  "file": "计算机组成原理习题解答2(2).pdf",
+  "page_count": 132,
+  "pages": [
+    {
+      "page": 1,
+      "text": "计算机组成原理习题解答\n               主讲：张青",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 2,
+      "text": "第3章学习要求\n\nØ掌握存储器的分级结构及主要技术指标\nØ理解SRAM的逻辑结构和读写过程\nØ理解DARM的逻辑结构和读写过程，掌握DRAM的刷新方法\nØ掌握存储器容量扩展的方法\nØ了解ROM的特性、分类。\nØ理解双端口存储器的逻辑结构和读写控制的原理\nØ掌握多模块交叉存储器的基本结构、工作原理及带宽的计算\nØ掌握cache的基本概念、原理、功能，会计算cache的相关指标\nØ掌握主存与cache的地址映射及相关的应用、清楚替换策略及写操作\n策略\nØ理解虚拟存储器的基本概念，理解cache与虚存的异同\nØ掌握页式、段式、段页式虚拟存储器的基本原理和地址转换过程，理\n解虚存、主存和cache三个层次协调工作的原理。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 3,
+      "text": "习题1\n\n1、设有一个具有20位地址和32位字长的存储器，问：\n Ø该存储器能存储多少个字节的信息？\n Ø如果存储器由512k*8位SRAM芯片组成，需要多\n 少片？\n Ø需要多少位地址作芯片选择？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 4,
+      "text": "习题1解答\n\nØ20位地址线可以对220个存储单元寻址，而每个存储\n单元具有32位即32/8=4个字节，则该存储器能存储\n4*220=4M字节的信息。\nØ(220*32)/(512k*8)=2*4=8片\nØ本身SRAM具有512K即有19位地址线，而需要进行\n字扩展将512K扩展成1M，即由19位扩展为20位，第20\n位地址作为芯片选择作用，既需要1位地址作芯片选择。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 5,
+      "text": "习题2\n\n2、已知某64位机主存采用半导体存储器，其地址码\n为26位，若使用4M×8位的DRAM芯片组成该机所允\n许的最大主存空间，并选用内存条结构形式，问：\n（1）若每个内存条为16M×64位，共需几个内存条？\n（2）每个内存条内共有多少DRAM芯片?\n（3）主存共需多少DRAM芯片？CPU如何选择各内\n存条？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 6,
+      "text": "习题2解答\n\n（1）(226×64)/(224×64)=4（个）\n（2）(224×64)/(222×8)=32（片）\n（3）主存共需32×4=128（片）\n每个内存条为16M×64位，共需24（A0~A23）根地\n址线完成内存条内存储单元寻址。共4块内存条，采\n用2根高位地址线（A25~A24），通过2：4译码器译\n码产生片选信号对各内存条进行选择",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 7,
+      "text": "习题4\n\n4、有一个1024k*32位的存储器，由128K*8位DRAM\n芯片构成。问：\n（1）总共需要多少DRAM芯片?\n（2）设计此存储体组成框图。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 8,
+      "text": "习题4解答-1\n\n\nu  共需(1024k*32)/(128k*8)=8*4=32片\n\nu 设计此存储体组成框图如下：",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 9,
+      "text": "习题4解答-2\n\n D0-D31\n\n\n             I/O1 …..  I/O4     I/O1 …..  I/O4                        I/O1 …..  I/O4              I/O1 …..  I/O4     I/O1 …..  I/O4                        I/O1 …..  I/O4               I/O1 …..  I/O4     I/O1 …..  I/O4                        I/O1 …..  I/O4               I/O1 …..  I/O8     I/O1 …..  I/O8        WE  2114  CS   WE  2114  CS               WEI/O12114….. CSI/O8\n        WE  2114  CS   WE  2114  CS   ……      WE  2114  CS         WE  2114  CS   WE  2114  CS               WE  2114  CS\n                                              WE ….128k*8A9  CSCPU        A0WE ….128k*8A9  CS    A0WE ….128k*8A9  CS                       A0               A0 …. A9         A0 …. A9                            A0 …. A9                A0 …. A9         A0 …. A9                            A0 …. A9                A0 …. A16         A0 …. A16                                                                        A0 …. A16\n    A0\n     A16          3:8\n         译    A17    A18     码\n     A19     器\n   wE",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 10,
+      "text": "习题6\n\n6、用32K*8位的E2PROM芯片组成128K*16位的只读\n存储器，试问：\n（1）数据寄存器多少位？\n（2）地址寄存器多少位？\n（3）共需多少个E2PROM芯片？\n（4）画出此存储器组成框图。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 11,
+      "text": "习题6解答-1\n\n\n  v 数据寄存器有16位；\n  v 地址寄存器有17位；\n  v 共需(128K*16/32K*8)=4*2=8个EPROM芯片；\n   此存储体组成框图如下:",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 12,
+      "text": "习题6解答-2\n\n D0-D15\n\n\n             I/O1 …..  I/O4     I/O1 …..  I/O4     I/O1 …..  I/O8     I/O1 …..  I/O4             I/O1 …..  I/O8     I/O1 …..  I/O8     I/O1 …..  I/O8     I/O1 …..  I/O8\n        WE  2114  CS   WE  2114  CS   WE 16k*8 CS    WE  2114  CS\n         WE 32K*8 CS    WE 32K*8 CS    WE 32K*8 CS    WE 32K*8 CS\nCPU        A0 …. A9         A0 …. A9         A0 …. A14          A0 …. A9               A0 …. A14         A0 …. A14         A0 …. A14          A0 …. A14\n\n   A0\n   A14          2:4\n         译    A15\n         码    A16\n         器\n  wE",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 13,
+      "text": "习题8\n\n8、设存储器容量为64MB，存储字长为64位，模\n块数m=8，分别用顺序和交叉方式进行组织。存储\n周期T=100ns，数据总线宽度为64位，总线传送周\n期t=50ns。求顺序存储器和交叉存储器的宽度各是\n多少？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 14,
+      "text": "习题8解答\n  顺序存储器和交叉存储器连续读出m=8个字的信息总\n量都是：q=64位×8=512位\n  顺序存储器和交叉存储器连续读出8个字所需的时间\n分别是：\n  t1=mT=8×100ns=800ns=8×10-7s　　\n   2=T+(m-1)τ=100ns+350ns=450ns=4.5×10-7s\n 顺序存储器和交叉存储器的带宽分别是：\n　W2=q/t2=512÷(8×10-7)=64×107（b/s）\n  W1=q/t1=512÷(4.5×10-7)=113.8×107（b/s）",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 15,
+      "text": "习题9（7单元作业题）\n\n9、CPU执行一段程序时，cache完成存取的次数为\n2420次，主存完成存取的次数为80次，已知cache存储\n周期为40ns，主存周期为240ns，求cache/主存系统的\n效率和平均访问时间。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 16,
+      "text": "习题9解答\n\n已知tc=40ns，tm=240ns\n⑴ cache的命中率\nh=Nc/(Nc+Nm)=2420/(2420+80)=0.968\n⑵ cpu访存的平均时间\nta=htc+(1-h)tm=0.968×40+(1-0.968)×240\n    =38.72+7.68=46.4(ns)\n⑶ cache-主存系统的效率\ne=tc/ta=40/46.4=0.862=86.2%",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 17,
+      "text": "习题13\n\n13、一个组相联cache由64行组成，每组4行。主存\n包含4K个块，每块128字，请表示内存地址格式，\n指明标记位、组号、字地址各占多少位。\n答：内存地址共19位，其中标记：8位，组号：4位，\n字地址：7位",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 18,
+      "text": "习题15\n\n15、假设主存容量16M×32位，cache容量为\n64K×32位，主存与cache之间以每块4×32位大小\n传递数据，请确定直接映射方式的有关参数，并画\n出主存地址格式。\n答：假设主存按字节编址，16M×32位=226B则主存\n地址共26位，4×32位=16B，则块内字地址：4位，\n（64K×32位）/（4×32位）=16k行，则行地址：\n14位，则标记位为8位。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 19,
+      "text": "习题20（7单元作业题）\n\n20、主存容量为4MB，虚存容量为1GB，则虚拟地\n址和物理地址各为多少位？如页面大小为4KB，则\n页表长度是多少？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 20,
+      "text": "习题20解答-1\n• 虚拟容量为1GB=230，所以其地址为30位。\n• 主存容量为4MB=222，所以其地址为22位。\n• 页面大小为4KB=212，所以页内地址长度为12位。因\n为虚拟地址总共为30位，所以虚页号为：\n30-12=18位。\n则页表长度为218=256K，即页表有256K个表项（记录）",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 21,
+      "text": "习题20解答-2\n\n v 主存地址格式为：\n\n    21               12 11                0\n    页号（10位）   页内地址（12位）\n\n\n v 虚拟地址格式为：\n\n     29                 12 11                 0\n     页面号（18位）   页内地址（12位）",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 22,
+      "text": "补充题目1（5单元作业题）\n\n1、主存储器的地址寄存器和数据寄存器各自的作用\n是什么？设一个1MB容量的存储器，字长为32位，\n问：\n（1）按字节编址，主存储器的地址寄存器和数据寄\n存器各多少位？编址范围为多大？\n（2）按字编址，主存储器的地址寄存器和数据寄存\n器各多少位？编址范围为多大？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 23,
+      "text": "补充题目1解答\n\n在主存储器中，地址寄存器MAR用来存放当前CPU访问的内\n存单元地址。\n数据寄存器MDR用来存放由内存中读出或写入内存的信息。\n（1）按字节编址，1MB=220×8位，地址寄存器为20位，数据\n寄存器为8位，编址范围为：00000H~FFFFFH\n（2）按字编址，1MB=218×32位，地址寄存器为18位，数据\n寄存器为32位，编址范围为：00000H~3FFFFH",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 24,
+      "text": "补充题目2（5单元作业题）\n\n2、设有16片512K×4位的SRAM芯片，回答以下问题：\n（1）该SRAM芯片有多少根地址线？多少根数据线？\n（2）构成1M×32位的存储器，如何进行位和字的扩展？\n（文字描述即可）\n（3）如果按32位的字编址，该存储器需要多少地址线？\n（4）分析字扩展后的地址范围。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 25,
+      "text": "补充题目2解答\n\n（1）512K=219，该SRAM芯片有19 根地址线，4根数据线\n（2）8片一组进行位扩展成512K×32位，共2组，组间进行字扩\n展成1M×32位\n（3）该存储器需要20位地址线\n（4）2组进行字扩展，第1组的范围为：00000H~7FFFFH,\n第2组的地址范围为：80000H~FFFFFH",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 26,
+      "text": "补充题目3（5单元作业题）\n\n3、已知某64位机主存采用半导体存储器，其地址为26位，\n若使用4M×8位的DRAM芯片组成该机所允许的最大主存\n空间，并选用内存条结构形式，问：\n（1）该DRAM芯片有多少根地址线？多少根数据线？\n（2）若每个内存条为16M×64位，共需几个内存条？\n（3）每个内存条内共需多少DRAM芯片?\n（4）CPU如何选择各内存条？（文字描述即可）",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 27,
+      "text": "补充题目3解答\n\n（1）该DRAM芯片有11根地址线，8根数据线\n（2）(226×64)/(224×64)=4（个）\n（3）(224×64)/(222×8)=32（片）\n（4）每个内存条为16M×64位，共需24（A0~A23）根地\n址线完成内存条内存储单元寻址。共4块内存条，采用2\n根高位地址线（A25~A24），通过2：4译码器译码产生\n片选信号对各内存条进行选择。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 28,
+      "text": "补充题目4（5单元作业题）\n\n4、一个1K×4的DRAM芯片，其内部存储元结构排列成\n64×64形式，刷新周期为2ms，存储周期为0.1us。问：\n（1）若采用分散刷新与集中刷新相结合（即异步式刷新）\n的方式，刷新信号周期应取多少？\n（2）若采用集中式刷新，则对该芯片刷新一遍需要多少\n时间？死时间率是多少？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 29,
+      "text": "补充题目4解答\n\n（1）采用分散刷新与集中刷新相结合（即异步式刷新）\n的方式，刷新信号的时间间隔为：2ms/64=31.25us，故刷\n新信号周期应取31us。\n\n\n（2）采用集中式刷新，因为存储周期是0.1us，64行共需\n要6.4us，则死时间率为：6.4/2000×100%=0.32%",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 30,
+      "text": "补充题目5（5单元作业题）\n\n5、用ROM芯片（4K×4位/片）和RAM芯片（2K×8位/片）\n组成一个半导体存储器，按字节编址，该存储器ROM区\n的容量为8KB，RAM区的容量为16KB。问：\n（1）该存储器一共需要多少根地址线？ROM芯片和\nRAM芯片各需要几根地址线？\n（2）需要设置多少个片选信号？写出各片选信号与地址\n线的逻辑关系。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 31,
+      "text": "补充题目5解答-1\n\n（1）存储器的总容量是8KB+16KB=24KB，一共需要15\n根地址线（A14~A0）；\n因为4K=212，所以ROM芯片需要12根地址线（A11~A0）；\n因为2K=211，所以RAM芯片需要11根地址线（A10~A0）；",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 32,
+      "text": "补充题目5解答-2\n\n（2）需要设置10个片选信号，10个片选信号与高位地址\n线之间的关系见下表",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 33,
+      "text": "补充题目6（7单元作业题）\n\n6、一个四体交叉存储器，每个模块容量是64K×32位，\n存取周期为200ns，总线传送周期为50ns，问：\n（1）在一个存取周期中，该存储器最多能向CPU提供\n多少位二进制信息？\n（2）设字长32位，连续读出4个字时，该交叉存储器的\n带宽是多少？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 34,
+      "text": "补充题目6解答\n\n（1）在一个存取周期中，最理想的情况，该存储器能向\nCPU提供32×4=128位二进制信息。\n（2）128位÷（200+150）ns=128÷（3.5×10-7）\n≈36.6×107b/s",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 35,
+      "text": "补充题目7（7单元作业题）\n\n7、一个组相联cache由64行组成，每组4行。主存包含4K\n个块，每块128字，字长32位，按字编址。问：\n（1）主存容量是多少字节？\n（2）cache容量是多少字节？\n（3）表示主存地址格式，指明标记位、组号、字地址各\n占多少位？\n（4）主存地址101FEH应装入cache的哪一组？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 36,
+      "text": "补充题目7解答\n\n（1）主存容量是：4K×128×32/8=2MB\n（2）cache容量是：64×128×32/8=32KB\n（3）内存地址共19位，其中标记：8位，组号：4位，字\n地址：7位\n（4）主存地址101FEH=0001 0000 0001 1111 1110B，其\n中组号为3，所以应装入cache的第3组",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 37,
+      "text": "补充题目8\n\n8、在页式虚拟存储器中，页面大小1KB，用户空间\n共16个页面，其中0、1、2、4、5页已装入主存，分\n别对应的物理页号是8、5、9、7、2，则虚拟地址\n0A3EH对应的物理地址是？\n解：0A3EH=00 1010 0011 1110B，页面大小是1KB，\n故页内地址是低10位，高4位0010是虚页号，即第2\n页，已装入主存对应第9块，所以虚地址0A3EH对应\n的物理地址是：10 0110 0011 1110",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 38,
+      "text": "补充题目9（7单元作业题）\n\n9、某页式虚拟存储管理系统中，页大小为100字。某作\n业依次要访问的字地址序列是：138、215、180、78、\n423、174、380、425、261、179，若该作业的第0页已经\n装入主存，分配给该作业的主存共300字。问：\n（1）按FIFO替换算法会产生多少次缺页中断？列出依次\n淘汰的页号。\n（2）按LRU替换算法会产生多少次缺页中断？列出依次\n淘汰的页号。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 39,
+      "text": "补充题目9解答\n\n（1）按FIFO替换算法会产生5次缺页中断，依次淘汰的\n页号是：0、1、2\n（2）按LRU替换算法会产生6次缺页中断，依次淘汰的\n页号是：2、0、1、3",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 40,
+      "text": "补充题目10\n10、某计算机采用页式虚拟存储管理方式，按字节编址，虚拟地址\n为32位，物理地址为24位，页大小为8KB；TLB采用全相联映射；\nCache数据区大小为64KB，按2路组相联方式组织，主存块大小为\n64B。存储访问过程的示意图如下。请回答下列问题。\n（1）图中字段A～G的位数各是多少? TLB标记字段B中存放的是\n什么信息?\n（2）将块号为4099的主存块装入到Cache中时，所映射的Cache\n组号是多少?对应的H字段内容是什么?\n（3）Cache缺失处理的时间开销大还是缺页处理的时间开销大?为\n什么?",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 41,
+      "text": "补充题目10图",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 42,
+      "text": "补充题目10解答\n(1)页大小为8 KB，页内偏移地址为13位，故A=B=32-13=19；\nD=13；C=24-13=11；主存块大小为64B，故G=6。2路组相联，\n每组数据区容量有64B×2=128B，共有64 KB/128B=512组，故\nF=9；E=24-G-F=24-6-9=9。TLB中标记字段B的内容是虚页号，\n表示该TLB项对应哪个虚页的页表项。\n(2)块号4099=00 0001 0000 0000 0011B，\n因此，所映射的Cache组号为：0 0000 0011B=3，\n对应的H字段内容为：0 0000 1000B。\n(3)Cache缺失带来的开销小，而处理缺页的开销大。因为缺页处\n理需要访问磁盘，而Cache缺失只要访问主存。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 43,
+      "text": "补充题11\n\n11、有一主存—Cache层次的存储器，其主存容量\n1MB，Cache容量64KB，每个数据块的大小为8KB，\n若采用直接映射方式，请问：\n① 内存可以划分为多少块？\n② Cache可以划分为多少行？\n③ 写出内存地址格式，标出各字段的位数。\n④ 主存地址为25301H，问它在主存的哪一块？\n⑤ 其映射到Cache是哪一行？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 44,
+      "text": "补充题11解\n\n解：已知主存容量1MB，Cache容量64KB，每个数\n 据块的大小为8KB 。\n① 内存可以划分为1MB/8KB=128块\n② Cache可以划分为64KB/8KB=8行\n③因为采用直接映象方式，则内存地址格式：\n   标记      Cache行号    字\n            （c=3位）  （t=4位）              （b=13位）\n\n    主存块地址m=t+c=7位",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 45,
+      "text": "补充题11解 (续)\n\n④ 主存地址为25301H，用二进制表示为：\n  25301H=0010， 010，1 0011 0000 0001B\n 即是内存的第18块\n⑤ 映射的是Cache第2行\n          J=i mod 8=18 mod 8=2",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 46,
+      "text": "补充题12\n\n• 某计算机的主存地址空间大小为256MB，按字节编址。指令cache和数据\n  cache分离，均有8个cache行，每个cache行大小为64B，数据cache采用\n 直接映射方式。现有两个功能相同的程序A和B，其伪代码如下所示：\n  程序A：             程序B：\n    int a[256][256];                        int a[256][256];\n     ......                                                 ......\n    int sum_array1()                      int sum_array2()\n    {                                             {\n         int i,j,sum=0                            int i,j,sum=0\n        for (i=0;i<256;i++)                   for (j=0;j<256;j++)\n             for (j=0;j<256;j++)                   for (i=0;i<256;i++)\n                sum+=a[i][j];                        sum+=a[i][j];\n            return sum;                        return sum;\n    }                                             }",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 47,
+      "text": "补充题12续\n\n假定int 类型数据用32位补码表示，程序编译时，i、j和sum均\n分配在寄存器中。数组a按行优先方式存放，其首地址为320\n（十进制数）。请回答下列问题，要求说明理由或给出计算过\n程。\n（1）若不考虑用于cache一致性维护和替换算法的控制位，\n则数据cache的总容量为多少？\n（2）数组元素a[0][31]和a[1][1]各自所在的主存块对应的\ncache行号分别是多少？（cache行号从0开始）\n（3）程序A和程序B的数据访问命中率各是多少？哪个程序的\n执行时间更短？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 48,
+      "text": "补充题12解答（1）\n\n（1）因为主存按字节编址，大小是256MB，所以主存地址共28\n位（256M=228）。cache有8行，行号是3位（8=23）。每行大\n小为64B，所以块内地址6位（64=26）。若不考虑用于cache一\n致性维护和替换算法的控制位，则标记位数=28-3-6=19位。还\n需要有一个有效位，因此cache的结构如下：\n\n      有效位1位   tag标记19位      数据64B=512位\n\n因cache共8行，\n所以，数据cache的总容量=8×（1+19+512）/8=532B",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 49,
+      "text": "补充题12解答（2）\n\n(2) 数组a按行优先方式存放，其首地址为320（十进制数），数组每个元素占\n4个字节，主存1个数据块=cache1行的数据=64B=16个数组元素。\na[0][31]的地址为320+31×4=444，其对应的二进制数是110111100，低6位是\n块内字地址，剩余3位110是行号，即第6行\na[1][1]的地址为320+256×4+1×4=1348，其对应的二进制数是10101000100，\n低6位是块内字地址，中间3位101是行号，即第5行\n                             主存\n   cache                                                  a[0][0]...a[0][15]                                     块0   0行\n                                                 a[0][16]...a[0][31]                                     块1   1行                                       0区                                                                      ......                                                                                                         ...   2行\n                                                a[0][112]...a[0][127]   3行                                 块7\n                                               a[0][128]...a[0][143]   4行                                 块8\n   5行                                      a[0][124]...a[0][159] 块9\n                                       1区   6行                                                         ......                             ...\n   7行                                      2[0][240]...a[0][255]  块15",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 50,
+      "text": "补充题12解答（3）\n\n(3) 数组a按行存放，程序A按行存取。每行64B，所以每个字\n块中存放16个int型数据，除访问的第一个不命中，随后的15\n个都命中，访问全部子块都符合这一规律，且数组大小为子\n块大小的整数倍，故程序A的命中率是15/16=93.75%\n   程序B逐列访问数组a，cache总容量为64B×8=512B，数\n组a一行的大小为256×4B=1KB，正好是cache容量的2倍，可\n知，不同行的同1列数组元素使用的是同一个cache单元，故\n逐列访问每个数据时，都会将之前的子块置换出，即每次访\n问都不命中，命中率为0",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 51,
+      "text": "第4章学习要求\n\nØ掌握指令、指令系统、指令格式的基本概念，清楚指\n令系统的重要作用，会分析给定的指令格式\nØ理解指令和数据的各种寻址方式，掌握不同的数据寻\n址方式下操作数的获得方法。\nØ清楚指令系统的基本指令类型\nØ掌握CISC和RISC各自的特点",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 52,
+      "text": "习题4\n\n4、指令格式结构如下所示，试分析指令格式及寻址\n方式特点。\n       15        10               7          4  3          0\n        OP           源寄存器  变址寄存器\n               偏移量（16位）\n\n解：指令格式及寻址方式特点如下：\n　　① 双字长二地址指令，用于访问存储器\n　　② 操作码OP可指定26=64种操作\n　　③ 是RS型指令，一个操作数在通用寄存器中，另一个\n操作数在主存中\n　　④ 有效地址=变址寄存器+偏移量",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 53,
+      "text": "习题5\n\n5、指令格式结构如下所示，试分析指令格式及寻址\n方式特点。\n\n\n\n解：指令格式及寻址方式特点如下：\n　　① 单字长二地址指令；\n　　② 操作码OP可指定24=16条指令；\n　　③ 23=8，支持8种寻址方式；\n　　④ 可以是RR型指令、SS型指令、RS型指令",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 54,
+      "text": "习题7\n\n7、某计算机字长32位，主存容量为64K字，采用单\n字长单地址指令，共有40条指令，试采用直接、立\n即、变址、相对四种寻址方式设计指令格式。\n\n解：40条指令需占用操作码字段（OP）6位，寻址模\n式（X）2位，形式地址（D）24位，其指令格式如下：\n\n     31         26  25   24   23",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 55,
+      "text": "习题7解答\n\n寻址模式定义如下：\n  Ø X= 00，直接寻址，有效地址 E=D\n  Ø X= 01，立即寻址，D字段为操作数\n  Ø X= 10，变址寻址，有效地址 E= (RX)＋D\n  Ø X= 11，相对寻址，有效地址 E=(PC)＋D\n 　其中RX为变址寄存器（32位），PC为程序计数\n 器（32位），在变址和相对寻址时，位移量D可正\n 可负。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 56,
+      "text": "习题12（8单元作业题）\n\n12、根据操作数所在位置，指出其寻址方式\n（1）操作数在寄存器中，为(A)寻址方式？\n（2）操作数地址在寄存器中，为(B)寻址方式？\n（3）操作数在指令中，为(C)寻址方式？\n（4）操作数地址（主存）在指令中，为(D)寻址方式？\n（5）操作数的地址，为某一寄存器内容与位移量之和，可以\n是(E，F，G)哪种寻址方式？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 57,
+      "text": "习题12解\n\n（A）：寄存器寻址\n（B）：寄存器间接寻址\n（C）：立即寻址\n（D）：直接寻址\n（E、F、G）:相对寻址、基址寻址、变址寻址",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 58,
+      "text": "习题17（8单元作业题）\n\n17、设某指令系统字长为16位，地址码为4位。试设计\n指令格式，使该系统中有11条三地址指令、70条二地\n址指令和150条单地址指令。并指明系统中最多还可以\n有多少条零地址指令。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 59,
+      "text": "习题17解\n\n解： 三地址指令地址码占12位，故操作码字段有4位，\nOP=0000~1010\n二地址指令地址码占8位，操作码字段有8位，\nOP=10110000~11110101，共16×4+6=70条\n单地址指令，地址码占4位，操作码字段应有12位，\nOP=111101100000~111111110101，共16×9+6=150条\n零地址指令无需地址码，故操作码字段有16位，\nOP=1111111101100000~1111111111111111，共\n16×10=160条",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 60,
+      "text": "补充题目1\n\n1、某机器字长16位，主存按字节编址，转移指令采用\n相对寻址，由两个字节组成，第一个字节为操作码字段，\n第二个字节为相对位移量字段。假定取指令时，每取一\n个字节PC自动加1。若某转移指令所在主存地址为\n2000H，相对位移量字段的内容为06H，则取该转移指\n令后及执行该转移指令后PC的内容分别为（ C ）。\n  A 2000H，2006H      B 2000H，2008H\n C 2002H，2008H     D 2002H，2006H",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 61,
+      "text": "补充题目2\n\n2、某机器字长16位，存储器按字节编址。一条单字长\n的取数指令(LDA)存于存储器的200和201单元，其中\n第一个字节为操作码OP和寻址方式M，第二个字节为\n形式地址A。假设PC当前值为200，变址寄存器Rx的\n内容为100，基址寄存器内容为200，存储器相关单元\n的内容如下表所示：\n  地址201  300  400  401  500  501  502\n  内容300  400  700  501  600  700  800",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 62,
+      "text": "补充题目2续\n\nLDA指令实现将存储单元的数取出来放在累加AC中，\n请根据以上相关存储单元的内容在下表中填写出各种\n寻址方式下的有效地址EA的值及累加器AC的内容。\n   寻址方式  有效地址EA的值 累加器AC的内容\n   直接寻址\n   间接寻址\n   变址寻址\n   相对寻址\n   基址寻址",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 63,
+      "text": "补充题目2解\n\n  寻址方式  有效地址EA的值 累加器AC的内容\n  直接寻址        300            400\n  间接寻址        400            700\n  变址寻址        400            700\n  相对寻址        502            800\n  基址寻址        500            600",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 64,
+      "text": "补充题目3（8单元作业题）\n\n3、某计算机字长16位，存储容量为1MB，按字节编址，采用单字长指令格式，\n操作码位数固定，其RR型指令格式定义如下图所示，Ri为源寄存器，Rj为目\n标寄存器，M为寻址方式。请回答下列问题：\n（1）该指令系统中RR型指令最多可有多少条？\n（2）RR型指令最多可支持几种寻址方式？\n（3）该机器最多有多少个通用寄存器？\n（4）该机器的存储器地址寄存器需要多少位？\n（5）该机器的数据寄存器需要多少位？\n（6）若OP=100001B表示传送指令，M=00B表示寄存器寻址，则机器指令\n8421H完成何种功能？\n                     15        10 9    8 7         4 3        0\n                    OP    M        Ri          Rj",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 65,
+      "text": "补充题目3解答\n\n（1）该指令系统中RR型指令最多可有26=64条\n（2）RR型指令最多可支持22=4种寻址方式\n（3）该机器最多有24=16个通用寄存器\n（4）该机器的存储器地址寄存器需要20位，因为1M=220\n（5）该机器的数据寄存器需要16位，因为字长16位\n（6）若OP=100001B表示传送指令，M=00B表示寄存器寻址，\n机器指令8421H的功能是将寄存器R2的数据传送给R1",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 66,
+      "text": "补充题目4\n\n4、某机器的字长为16位，内存按字编址，其指令格式如下所示：\n\n    15        10 9    8 7                    0\n       OP      X         D\nD：位移量；X：寻址特征位；\nX=00：直接寻址；\nX=01：用变址寄存器X1进行变址；\nX=10：用变址寄存器X2进行变址；\nX=11：相对寻址。\n设（PC）=7890H，（X1）=3721H，（X2）=4567H，请确定下列指令的有\n效地址。\n（1）5834H，（2）2656H，（3）1734H，（4）6579H。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 67,
+      "text": "补充题目4解答\n\n（1）X=00，D=34H，有效地址EA=34H\n（2）X=10，D=56H，有效地址EA=4567H + 56H=45BDH\n（3）X=11，D=34H，有效地址EA=7890H +1H+34H=78C5H\n（4）X=01，D=89H，有效地址EA=3721H + 79H=379AH",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 68,
+      "text": "补充题目5（8单元作业题）\n\n5、 一个处理器中共有32个寄存器，使用16位立即数，其指令系统结构中共\n有142条指令。在某个给定的程序中，20％的指令带有一个输入寄存器和一\n个输出寄存器；30％的指令带有两个输入寄存器和一个输出寄存器；25％的\n指令带有一个输入寄存器、一个输出寄存器、一个立即数寄存器；其余25％\n的指令带有一个立即数和一个输出寄存器。\n(1）对于以上4种指令类型中的任意一种指令类型来说，共需要多少位？假定\n指令系统结构要求所有指令长度必须是8的整数倍。\n2）与使用定长指令集编码相比，当采用变长指令集编码时，该程序能够少占\n用多少存储器空间？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 69,
+      "text": "补充题目5解答\n\n(1）由于有142条指令，因此至少需要8位才能确定各条指令的操作码\n（28=256)。由于该处理器有32个寄存器，也就是说要用5位对寄存器 ID 编\n码，而每个立即数需要16位。因此有：\n20％的一个输入寄存器和一个输出寄存器指令需要8+5+5=18位，长度对齐\n到8的倍数，便是24位。\n30％的两个输入存器和一个输出存器指令需要8+5+5+5=23位，对齐到24位。\n25％的一个输入寄存器、一个输出寄存器、一个立即数寄存器指令需要\n8+5+5+16=34位，对齐到40位。\n25％的一个立即数和一个输出寄存器指令需要8+16+5=29位，对齐到32位。\n(2）24×20％+24×30％+40×25％+32×25％=30\n（40-30）/40=25% 少占用25%的存储空间",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 70,
+      "text": "补充题目6（8单元作业题）\n\n6、 某计算机字长16位，标志寄存器FLAGS中的ZF、SF和OF分别是零标志、\n符号标志和溢出标志，采用双字节字长指令字。假定bgt（大于零转移）指令\n的第一个字节指明操作码和寻址方式，第二个字节为偏移地址Imm8，用补码\n表示。指令功能是：若（ZF+(SF+OF)=0)，则PC=PC+2+Imm8x2；否则，\nPC=PC+2.请回答下列问题：\n1）该计算机的编址单位是多少？\n2) bgt指令执行的是带符号整数比较，还是无符号整数比较？\n3）偏移地址Imm8的含义是什么？转移目标地址的范围是什么？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 71,
+      "text": "补充题目6解答\n\n1）因为PC的增量是2，且每条指令占2个字节，所以编址单位是字节。\n2）根据\"大于\"条件判断表达式，可以看出该bgt指令实现的是带符号整数比\n较。因为无符号数比较时，其判断表达式中没有溢出标志OF。\n3）偏移地址Imm8为补码表示，说明转移目标地址可能在bgt指令之后。计算\n转移目标地址时，偏移量为Imm8x2，说明Imm8不是相对地址，而是相对指\n令数。\nImm8的范围为﹣128~127，故转移目地址的范围是PC+2+(-\n128x2)~PC+2+127x2，也即转移目标地址的范围是相对于bgt指令的前127\n条指令到后128条指令之间。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 72,
+      "text": "第5章学习要求\nØ掌握CPU的基本功能、基本组成和指令周期的基本概念\nØ理解各种基本指令的执行过程，会用方框图语言表示指令周期，并会分\n析指令执行所需要的微操作信号\nØ了解时序信号的作用、体制\nØ理解微程序控制器的基本思想\nØ掌握微命令、微操作、微指令、微程序的概念\nØ掌握机器指令和微程序的关系，掌握微程序设计中的相关技术，会设计\n微指令\nØ清楚微程序控制器的组成及工作过程\nØ理解硬连线控制器的基本思想\nØ掌握并行性的含义，会画流水CPU的时空图，理解流水线中的主要问题",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 73,
+      "text": "习题2\n\n2、参见图5.1的数据通路。画出存数指令“STO R1,(R2)”的指\n令周期流程图，其含义是将寄存器R1的内容传送至（R2）为\n地址的主存单元中。标出各微操作信号序列。\n                     A总线\n\n                                                                                              Xi + -IRi           PCi      ARi                DRi      R0i               R3i                   R/W\n                                                   A\n                                                                   ALU   IR   PC   AR               DR    R0   R1   R2   R3                M\n                                                         G                                                    B\n\nIRo         PCo                      DRo     R0o                                                                    R3o       Yi\n\n                    B总线",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 74,
+      "text": "PC0，G，ARi              PC→AR\nSTO R1,(R2)\n的指令周期                R/W=R            M→DR\n流程图\n              DR→IR       DR0，G，IRi\n\n\n               R2→AR       R20，G，ARi\n\n              R1→DR       R10，G，DRi\n\n            DR→M      R/W=W\n\n              ~",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 75,
+      "text": "习题3\n\n3、参见图5.1的数据通路，画出取数指令“LAD (R3),R0”的\n指令周期流程图，其含义是将（R3）为地址主存单元的内\n容取至寄存器R0中。标出各微操作信号序列。\n                    A总线\n\n                                                                                            Xi + -IRi          PCi     ARi                DRi      R0i               R3i                   R/W\n                                                  A\n                                                                  ALU   IR   PC   AR              DR    R0   R1   R2   R3                M\n                                                        G                                                   B\nIRo         PCo                     DRo     R0o                                                                  R3o       Yi\n\n                   B总线",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 76,
+      "text": "PC0，G，ARi                PC→ARLAD (R3),R0\n的指令周期流              M→DR      R/W=R\n程图\n                DR→IR       DR0，G，IRi\n\n\n                                   R30，G，ARi                 R3→AR\n\n              M→DR        R/W=R\n\n                 DR→R0        DR0，G，R0I\n\n               ~",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 77,
+      "text": "习题6\n\n6、假设某机器有80条指令，平均每条指令由4条微指\n令组成，其中有一条取指微指令是所有指令共用的。\n已知微指令长度为32位，请估算控制存储器容量。\n解：\n共需要的微指令条数： 80*（4-1）+1 = 241\n控制存储器CM的容量：241*32 = 7712b = 964B",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 78,
+      "text": "习题11（10单元作业题）\n\n11、已知某机采用微程序控制方式，CM为512*48位。\n微程序可在整个控存中实现转移的条件有4个，微指\n令采用水平型格式，后继微指令地址采用断定方式。\n请问：微指令的三个字段分别应为多少位？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 79,
+      "text": "习题11解答\n因为某机采用微程序控制方式，控存容量为512*48位，可知一条\n微指令长48位。\n后继微地址字段可以设置为9位，即可对512个控存单元寻址，因\n29=512。\n微程序可在整个控存中实现转移的条件有4个。要实现4个转移条\n件，测试字段需要的位数：\n如果采用直接表示法，需要4位；\n如果采用字段直接译码法，则需要3位。\n因为微指令采用水平型格式，后继微指令地址采用断定方式。后\n继微指令地址为9位，判断字段为4位或3位，所以微命令字段为：\n若判断字段采用直接表示法48-4-9=35位。\n若判断字段采用字段直接译码法 48-3-9=36位。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 80,
+      "text": "习题12（10单元作业题）\n\n12、今有4级流水线，分别完成取指、指令译码并取数、运\n算、送结果四步燥作。今假设完成各步操时间依次为 100ns、\n100ns、80ns、50ns。请问∶\n（1）流水线的操作周期应设计为多少?\n（2）若相邻两条指令发生数据相关，硬件上不采取措施，\n那么第2条指令要推迟多少时间进行？\n（3）如果在硬件设计上加以改进，至少需推迟多少时间?",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 81,
+      "text": "习题12解答\n\n(1)流水线的操作周期应按各步操作的最大时间来考\n虑，即流水线时钟周期   max{i }  100 ns\n(2)遇到数据相关时，就停顿第2条指令的执行，直到\n前面指令的结果已经产生，因此至少需要延迟2个时\n钟周期。\n(3)如果在硬件设计上加以改进，设置若干运算结果\n缓存寄存器，采用定向传送技术，就可使流水线不发\n生停顿。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 82,
+      "text": "习题13（10单元作业题）\n\n13、指令流水线有取指（IF）、译码（ID）、执行\n（EX）、访存（MEM）、写回寄存器堆（WB）五个\n过程段，共有20条指令连续输入此流水线。\n⑴ 画出流水处理的时空图，假设时钟周期为100ns。\n⑵ 求流水线的实际吞吐率（单位时间里执行完毕的指\n令数。\n⑶ 求流水线的加速比。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 83,
+      "text": "习题13解答-1\n\n\n  空间S                   1  2  3  4  5     16 17 18 19 20                 …  段号\n\n\n                        1   2   3   4         16   17  18  19  20                     …WB\n                    1   2   3   4         16   17   18  19  20                   …MEM\nEX            1   2   3   4  …   16  17  18  19  20\n          1   2   3   4        16  17  18  19  20ID           …\n      1   2   3   4        16  17  18  19  20IF         …\n       t1 t2  t3 t4 t5 … t16 t17 t18 t19 t20  t21 t22 t23 t24\n\n                            时间t      流水处理时空图",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 84,
+      "text": "习题13解答-2\n\n⑵ 流水线的实际吞吐量\n\n在24T内的吞吐量： 时钟周期T=100 (ns)\n   20/24T = 5/6×107≈ 8.333×106条指令/s\n在20T内的吞吐量： T=100 (ns)\n    16/20T = 0.8×107条指令/s=8×106条指令/s",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 85,
+      "text": "习题13解答-3\n\n ⑶ 流水线的加速比\n将TL和Tk的比值定义为k级线性流水线的加速比：\n                                         n·k     非流水线时所需周期数   TL\n                       　  Ck＝         ＝    =     流水线时所需周期数     Tk   k＋(n－1)\n\n     = 20*5/（5+19）=25/6 ≈ 4.17",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 86,
+      "text": "习题16\n16、判断以下三组指令各存在哪种类型的数据相关。\n(1) I1 LAD R1，A ； M(A)→R1，M(A)是存储器单元\n   I2 ADD R2，R1 ；（R2）+（R1）→R2 写后读（RAW）相关\n(2) I3 ADD R3，R4 ；（R3）+（R4）→R3\n　 I4 MUL R4，R5 ；（R4）×（R5）→ R4\n 读后写（WAR），但不会引起相关冲突\n(3) I5 LAD R6，B ； M(B)→R6，M(B)是存储器单元\n　 I6 MUL R6，R7 ；（R6）×（R7）→ R6\n           写后读（RAW）相关\n           写后写（WAW）相关",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 87,
+      "text": "补充题目1（9单元作业题）\n\n1、某 16 位计算机的主存按字节编址，存取单位为 16 位；采\n用 16 位定长指令字格式；CPU 采用单总线结构，主要部分如\n下图所示。图中 R0 ～ R3 为通用寄存器；T 为暂存器；SR 为\n移位寄存器，可实现直送（mov）、左移一位（left）和右移一\n位（right）3 种操作，控制信号为 SRop，SR 的输出由信号SR\nout 控制；ALU 可实现直送 A（mova）、A 加 B（add）、A 减\nB（sub）、A 与 B（and）、A 或 B（or）、非 A（not）、A 加\nl（inc）7 种操作，控制信号为 Aluop。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 88,
+      "text": "补充题目1图",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 89,
+      "text": "补充题目1续\n\n请回答下列问题。\n（1）图中哪些寄存器是程序员可见的？\n（2）为何要设置暂存器 T ？\n（3）控制信号 Aluop 和 SRop 的位数至少各是多少？\n（4）控制信号 SR out 控制部件的名称和作用是什么 ?\n（5）端点①～⑨中，哪些端点须连接到控制部件的输出端 ?\n（6）为完善单总线数据通路，需要在端点①～⑨中相应的\n端点之间添加必要的连线。写出连线的起点和终点，以正确\n表示数据的流动方向。\n（7）为什么 2 路选择器 MUX 的一个输入端是 2 ？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 90,
+      "text": "补充题目1图",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 91,
+      "text": "补充题目1解答\n\n(1)通用寄存器(R0～R3)和 PC 程序员可见。\n(2)因为采用了单总线结构，若无暂存器 T，则 ALU 的 A、B 端口会同时获\n得两个相同的数据，数据通路不能正常工作。增加暂存器后可以使 A，B\n端口输入不同的数据。\n(3)ALU 共有 7 种操作，故操作控制信号 ALUop 至少需要 3 位，移位寄存\n器有 3 种操作，其操作控制信号 SRop 至少需要 2 位。\n(4)信号 SRout 所控制的部件是三态门，用于控制移位器与总线之间数据通\n路的连接与断开。\n(5)端口①、②、③、⑤、⑧都是控制信号，需要连接到控制部件输出端，\n其他都是数据通路。\n(6)首先内总线数据需要送 MUX 的 1 号引脚，因此⑥连接⑨；另外多路选\n择器输出应该连接到运算器 B 端，所以④连接⑦。\n(7)因为每条指令的字节长度是 2，顺序寻址时应该实现 (PC)+2 的逻辑，\n所以这里 MUX的一个输入端为 2，便于执行(PC)+2 操作。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 92,
+      "text": "补充题目2（9单元作业题）\n\n2、一台模拟机的数据通路如图所示，其中ALU完成加、减、传送\n（X）三种操作，MUX是三选一多路开关，R1～R3是通用寄存器。\nRAM是双端口存储器，其中DRAM为数据存储器（CE1为读写使能，\nRD/WE#为读/写命令），IRAM为指令存储器（只读）。AR为数据\n地址存储器，PC为程序计数器（具有自动加1功能），IR为指令寄\n存器。所有的单箭头为控制微命令。请回答下列问题：\n⑴指出运算器中的相斥性微操作。\n⑵指出存储器中的相容性微操作。\n(3)用方框图语言画出存数指令STA的指令周期流程图，并写出完成\n每个微操作所需要的微控制信号。PC中已存放指令地址，DRAM的\n数据地址由R3提供，写入数据由R2提供。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 93,
+      "text": "补充题目2图",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 94,
+      "text": "补充题目2解答-1\n\n（1）运算器中的相斥性微操作有下列三组信号\n+(加）、—（减）、M（传送）\nR1→X、 R2→X、 R3→X\nR1→Y、 R2→Y、 R3→Y\n（2）存储器中的相容性微操作：\n  LDPC和+1为互斥微操作外，其他微操作信号都是相容的。\n（3）指令STA的指令周期流程图如下：",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 95,
+      "text": "补充题目2解答-2\n\n\n                                 R3\n                    IRAM→IBUS\n                       IBUS→IR     CE2、RD、LDIR、+1\n                      PC+1→PC\n\n\n               译码\n\n                    R3→R3→ALU    R3→X\n\n                    R3ALU→DBUS\n                         M、A→DBUS、LDAR                   DBUS→AR\n\n                     R3→R2→ALU    R2→X\n\n                    R3ALU→DBUS\n                           M、A→DBUS、CE1、/WE#                 DBUS→DRAM",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 96,
+      "text": "补充题目3（9单元作业题）\n\n3、某计算机字长为16位，采用16位定长指令字结构，部分\n数据通路结构如下图所示，图中所有控制信号为1时表示有\n效、为 0时表示无效。例如，控制信号MDRinE 为1表示允\n许数据从DB打入 MDR，MDRin为1表示允许数据从内总线\n打入 MDR。假设 MAR 的输出一直处于使能状态。加法指\n令\"ADD R1，R0\"的功能为 (R0) + (R1)→R1，即将R0中的\n数据与 R1的内容相加，并将结果送入 R1。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 97,
+      "text": "补充题目3图",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 98,
+      "text": "补充题目3表\n\n下表给出了上述指令取指和译码阶段每个节拍（时钟周期）\n的功能和有效控制信号。请按表中描述方式用表格列出指\n令执行阶段每个节拍的功能和有效控制信号。\n\n   时钟   功能     有效控制信号\n\n             MAR←(PC)        PCout, MARin        C1\n\n            MDR←M(MAR)\n                            MemR, MDRinE, PC+1        C2            PC←(PC)+1\n\n             IR←(MDR)        MDRout, IRin        C3\n\n       指令译码       无        C4",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 99,
+      "text": "补充题目3解答\n\n\n   时钟    功能      有效控制信号\n\n             A←R0             R0out, Ain      C5\n\n             ALU←R1\n                               ADD, R1out,ACin      C6            AC←ALU(+)\n\n             R1←AC            ACout, R1in      C7\n\n      C8",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 100,
+      "text": "补充题目4（9单元作业题）\n4、假设该CPU的主频为3GHz，每条指令的执行需要经历取指、译码、执\n行（由ALU完成）和写回结果到寄存器组这四个阶段。每个阶段分别需要1\n个、2个、3个和1个时钟周期。\n计算执行一条指令所需的总时钟周期数。\n计算该CPU的理论最大IPS（Instructions Per Second，每秒指令数）。\n解答：\n总时钟周期数 = 取指周期 + 译码周期 + 执行周期 + 写回周期 = 1 + 2 + 3 +\n1 = 7个时钟周期。\n理论最大IPS = 主频 / 每条指令的总时钟周期数 = 3GHz / 7 ≈ 0.429GHz或\n429MIPS",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 101,
+      "text": "补充题目5（10单元作业题）\n5、某微程序包含5条微指令，每条微指令发出的操作控制信号\n如下表所示，试对这些微指令进行编码，要求微指令的控制字\n段最短且能保持微指令应有的并行性。\n        微指令及其对应的微操作控制信号表",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 102,
+      "text": "补充题目5解答\n\n可以发现两个互斥组（b，c，d），（e，f，i），\n可以将这两个互斥组采用字段译码法进行编码\n其余的 a，g，h，j等四个微命令采用直接表示法\n画对微指令格式",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 103,
+      "text": "补充题目6（10单元作业题）\n6、某16位计算机中，带符号整数用补码表示，数据Cache和\n指令Cache分离。下表给出了指令系统中部分指令格式，其中\nRs和Rd表示寄存器，mem表示存储单元地址，（x）表示寄存\n器x或存储单元x的内容。\n      指令系统中部分指令格式表",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 104,
+      "text": "补充题目6续-1\n\n该计算机采用5段流水方式执行指令，各流水段分别是取指（IF）、译\n码/读寄存器（ID）、执行/计算有效地址（EX）、访问存储器（M）和\n结果写回寄存器（WB），流水线采用“按序发射，按序完成”方式，\n没有采用转发技术处理数据相关，并且同一寄存器的读和写操作不能\n在同一个时钟周期内进行。请回答下列问题。\n（1）若int型变量x的值为-513，存放在寄存器R1中，则执行“SHL R1”\n后，R1中的内容是多少？（用十六进制表示）。\n（2）若在某个时间段中，有连续的4条指令进入流水线，在其执行过\n程中没有发生任何阻塞，则执行这4条指令所需的时钟周期数为多少？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 105,
+      "text": "补充题目6续-2\n\n（3）若高级语言程序中某赋值语句为x=a+b，x、a和b均为int型变量，\n它们的存储单元地址分别表示为[x]、[a]和[b]。该语句对应的指令序列\n及其在指令流中的执行过程如下图所示，则这4条指令执行过程中I3的\nID段和I4的IF段被阻塞的原因各是什么？\nI1 LOAD R1,[a]   I2 LOAD R2,[b]   I3 ADD R1,R2   I4 STORE R2,[x]\n\n                  时间单元\n      1  2  3   4   5    6    7    8    9    10   11   12   13   14\n   I1  IF  ID EX M  WB\n   I2       IF  ID  EX M  WB\n   I3           IF                 ID  EX M  WB\n   I4                                IF                  ID  EX M  WB",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 106,
+      "text": "补充题目6续-3\n\n（4）若高级语言程序中某赋值语句为x=x*2+a，x和a均为unsigned\nint类型变量，它们的存储单元地址分别表示为[x] 、[a]，则执行这条\n语句至少需要多少个时钟周期？要求模仿上图画出这条语句对应的指\n令序列及其流水线中的执行过程示意图。\n解答：\n（1）x的机器码为[x]补=1111 1101 1111 1111B，即指令执行前\n(R1)=FDFFH，左移1位后为：1111 1011 1111 1110B，即指令执行后\n(R1)=FBFEH。\n（2）至少需要5+（4-1）=8个时钟周期数。\n（3）I3的ID段被阻塞的原因：因为I3与I1和I2都存在数据相关，需等\n到I1和I2将结果写回寄存器后，I3才能读寄存器内容，所以被阻塞。\nI4的IF段被阻塞的原因：因为I4的前一条指令I3在ID段被阻塞。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 107,
+      "text": "补充题目6续-4\n\n（4）因x*2操作有左移和加法两种实现方法，故x=x*2+a对应的指令序\n列为：\n I1 LOAD R1,[x]   I2 LOAD R2,[a]   I3 SHL R1 //或者ADD R1,R1\n I4 ADD R1,R2    I5 STORE R2,[x]\n这5条指令在流水线中执行过程如下所示：最少需要17个时钟周期\n\n                  时间单元\n   1  2   3   4   5   6   7   8  9    10  11  12  13  14  15  16  17\nI1  IF  ID EX M  WB\nI2      IF  ID  EX M  WB\nI3          IF            ID  EX M WB\nI4                          IF                ID EX M  WB\nI5                                              IF                ID EX M WB",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 108,
+      "text": "第6章学习要求\n\nØ掌握总线的基本概念，会计算总线的带宽\nØ清楚总线上的信息传送方式，会计算异步串行传输的\n波特率和数据传输速率\nØ清楚总线仲裁的两大类方法\nØ清楚总线的定时方式",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 109,
+      "text": "习题10\n\n采用串行接口进行7位ASCII传送，带有1位校验位、\n1位起始位和1位停止位，当波特率为9600波特时，\n字符传输速率为多少？\n解：7+1+1+1=10\n字符传输速率为：9600÷10=960字符/秒",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 110,
+      "text": "习题20\n\n某总线在一个总线周期中并行传送8字节的信息，假\n设一个总线周期等于一个总线时钟周期，总线时钟频\n率为70MHZ，总线带宽是多少？\n解：8B×70M=560MB/s",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 111,
+      "text": "第7章学习要求\n\nØ清楚计算机I/O系统的结构和外围设备的基本组成\nØ掌握磁盘存储器的主要技术指标及相关计算\nØ掌握显示设备的主要技术指标和相关概念",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 112,
+      "text": "习题7\n\n某磁盘存储器转速为3000r/min，共有4个记录面，\n每道记录信息为12288B，最小磁道直径为230mm，\n共有275道。问：\n(1)磁盘存储器的存储容量是多少？\n(2)最高位密度是多少？\n(3)磁盘数据传输率是多少？\n(4)平均等待时间是多少？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 113,
+      "text": "习题7解答\n\n(1)12288×275×4=13.5168MB\n(2)12288/2ᴫr=12288/(2×3.14×115)≈17B/mm\n(3)3000/60=50r/s\n12288×50=614400B/s\n(4)平均等待时间，即磁盘旋转一周时间的一半\n60/3000/2=0.01s",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 114,
+      "text": "第8章学习要求\n\nØ清楚CPU与外围设备进行数据交换的几种方式\nØ掌握外围设备编址的方案\nØ掌握程序查询方式的基本过程\nØ掌握中断的相关概念以及程序中断方式的工作过程，\n清楚中断方式中涉及的问题\nØ掌握DMA的基本概念和传送方式\nØ了解通道的概念、功能和类型",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 115,
+      "text": "习题1\n\n1、CPU管理外围设备有几种方式？总结每一种方式\n的特点。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 116,
+      "text": "习题1解答\n①程序查询方式：CPU的操作和外围设备的操作能够同步，且硬件结\n构比较简单，输入和输出控制和传输完全由CPU处理，降低了CPU的\n效率。\n②程序中断方式：一般适用于随机出现的服务，且一旦提出要求应立\n即进行，CPU 不需要对外设进行状态查询，节省了CPU的时间开销，\n但硬件结构稍复杂一些。\n③直接内存访问（DMA）方式：数据传送不需要CPU的中转而在内存\n和外设间直接传送，数据传送速度很高，传送速率仅受到内存访问时\n间的限制。需要更多硬件，适用于内存和高速外设之间大批数据交换\n的场合。\n④通道方式：可以实现对外设的统一管理和外设与内存之间的数据传\n送，完全将CPU从I/O控制工作中解放出来，大大提高了CPU的工作效\n率。\n⑤外围处理机方式：是通道方式的进一步发展，基本上独立于主机工\n作，结构更接近一般处理机。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 117,
+      "text": "补充题目1\n\n1、中断和DMA方式有何区别？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 118,
+      "text": "DMA方式与中断方式的区别-1\n\nu 中断方式是程序的切换，需要保护和恢复现场；\nDMA方式除了预处理和后处理，其他时候不占用CPU\n的任何资源\n\nu 中断传送过程需要CPU的干预；而DMA传送过程不\n需要CPU的干预，故数据传输速率非常高，适合于高\n速外设的成组传送",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 119,
+      "text": "DMA方式与中断方式的区别-2\n\n\nu DMA请求的优先级高于中断请求\n\nu 中断方式具有对异常事件的处理能力，而DMA方\n式仅局限于传送数据块的I/O操作\n\nu 从数据传送看，中断方式靠程序传送，DMA方式\n 靠硬件传送",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 120,
+      "text": "补充题目2\n\n2、假定计算机的主频为 500MHz ，CPI 为 4。现有设备A和B，其数据传\n输率分别为40MB/s和80MB/s，对应I/O接口中各有一个32位数据缓冲寄存\n器。请回答下列问题，要求给出计算过程。\n（1）若设备A采用定时查询 I/O方式，每次输入/输出都至少执行10条指令。\n设备A最多间隔多长时间查询一次才能不丢失数据？CPU用于设备A输入/\n输出的时间占CPU总时间的百分比至少是多少？\n（2）在中断I/O方式下，若每次中断响应和中断处理的总时钟周期数至少\n为400，则设备B能否采用中断I/O方式？为什么？\n（3）若设备B采用DMA方式，每次DMA传送的数据块大小为1000B，\nCPU用于DMA 预处理和后处理的总时钟周期数为500，则CPU用于设备B\n输人/输出的时间占CPU总时间的百分比最多是多少？",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 121,
+      "text": "补充题目2解答-1\n\n（1）程序定时向缓存端口查询数据，由于缓存端口大小有限，\n必须在传输完端口大小的数据时访问端口，以防止部分数据没有\n被及时读取而丢失。\n设备 A 准备 32 位数据所用时间为4B/40MB=0.1us ，所以最多每\n隔 0.1us 必须查询一次，每秒的查询次数至少是 1s/0.1us=107 ，\n每秒 CPU用于设备 A 输入 /输出的时间至少为\n107×10×4=4×108 个时钟周期， 占整个 CPU 时间的百分比至少\n是4×108 /500M=80% 。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 122,
+      "text": "补充题目2解答-2\n\n（2）中断响应和中断处理的时间为 400×（1/500M ）=0.8us，这时\n只需判断设备 B 准备 32 位数据要多久，如果准备数据的时间小于中\n断响应和中断处理的时间，那么数据就会被刷新、造成丢失。经过计\n算，设备 B 准备 32 位数据所用时间为 4B/80MB=0.05us ，因此，设\n备 B 不适合采用中断 I/O 方式。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 123,
+      "text": "补充题目2解答-3\n\n（3）在 DMA 方式中，只有预处理和后处理需要 CPU 处理，数据的\n传送过程是由 DMA 控制。设备 B 每秒的 DMA 次数最多为\n80MB/1000B=80000 ，CPU 用于设备 B 输入 /输出的时间最多为\n80000 ×500=4×107 个时钟周期，占CPU 总时间的百分比最多为\n4×107 /500M=8% 。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 124,
+      "text": "补充题目3\n\n3、某计算机的CPU主频为100 MHz，CPI为4（即执行每条指令\n平均需4个时钟周期）。假定某外设的数据传输率为0.1 MB/s。\n（1）采用中断方式与主机进行数据传送，以32位为传输单位，\n对应的中断服务程序包含22条指令，中断服务的其他开销相当\n于3条指令的执行时间。问在中断方式下，CPU用于该外设I/O的\n时间占整个CPU时间的百分比是多少？\n（2）采用DMA方式与主机进行数据传送，每次DMA传送块大小\n为1000B，且DMA预处理和后处理的总开销为100个时钟周期，\n则CPU用于该外设I/O的时间占整个CPU时间的百分比是多少？\n（假设DMA与CPU之间没有访存冲突）",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 125,
+      "text": "补充题目3解-1\n\n（1）中断服务程序+其他开销所占用的时钟周期数为：\n4×22+4×3=100个时钟周期\n为了达到外设0.1MB的数据传输率，外设每秒申请的中\n断次数为：0.1MB/4B=25000次\n1秒内用于中断的开销为：100×25000=2.5M个时钟周\n期\nCPU用于该外设I/O的时间占整个CPU时间的百分比是：\n2.5M/100M=2.5%",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 126,
+      "text": "补充题目3解-2\n\n（2）外设的数据传输率为1 MB/s，每次DMA传送块\n大小为1000B，则每秒内产生的DMA次数为：\n1MB/1000B=1000次\nCPU用于DMA处理的总开销为：\n100×1000=100000=0.1M个时钟周期\nCPU用于该外设I/O的时间占整个CPU时间的百分比是：\n0.1M/100M=0.1%",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 127,
+      "text": "补充题目4（12单元作业）\n\n4、比较通道、DMA、中断三种基本I/O方式的异同点。\n答：通道是通过执行通道指令来实现输入/输出的，由通道负责\n对外围设备的统一管理，并组织外围设备与内存间的数据传输，\n大大提高了CPU的效率；\n  DMA是由DMA控制器在获得总线控制权后，直接在内存与\n外设之间实现数据传送的，传送速率只受到内存访问时间的限\n制，适用于高速外设与内存间进行大量的数据传输；\n  中断是通过CPU在响应中断时，转入中断服务程序，执行\n输入/输出指令来完成输入/输出的，比较适合随机出现的服务。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 128,
+      "text": "补充题目5（12单元作业）\n\n5、I/O的编址方式有几种？各有何特点？\n答：I/O的编址方式有两种：统一编址和独立编址。\n  统一编址，即在主存地址空间划出一定的范围作为I/O地址，\n这样通过访存指令即可实现对I/O的访问，但是主存容量相应\n减少了。\n  独立编址，即I/O和主存的地址是分开的，I/O地址不占主\n存空间，故这种编址方式不影响主存容量，但访问I/O时必须\n有专用的I/O指令。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 129,
+      "text": "补充题目6（12单元作业）\n\n6、DMA方式的中断请求和程序中断方式中的中断请求有何区别？\n答：DMA方式中的中断请求不是为了传送信息（信息是通过主\n存和I/O间的直接数据通路传送的），只是为了报告CPU一组数\n据传送结束，有待CPU做一些后处理工作，如测试传送过程中\n是否出错，决定是否继续使用DMA方式传送等。\n  程序中断方式的中断请求是为了传送数据，I/O和主机交换信\n息完全靠CPU响应中断后，转至中断服务程序完成的。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 130,
+      "text": "补充题目7（12单元作业）\n\n7、在什么条件和什么时间，CPU可以响应I/O的中断请求？\n答：CPU响应I/O中断请求的条件是：允许中断触发器是“1”\n状态（即开中断）；I/O本身有请求又未被屏蔽；经排队后又\n被选中。\n  CPU响应I/O中断请求的时间是每条指令执行阶段的结束\n时刻。因为此时由CPU发出中断查询信号，才能获取I/O的\n中断请求信号。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 131,
+      "text": "补充题目8（12单元作业）\n\n8、不同种类的外部设备与主机连接时，应考虑哪些主要问题？\n答：不同种类的外部设备与主机连接时，主要应考虑速度差\n别、数据格式、传送主机命令、反映设备工作状态、识别和\n指示数据传送的地址等。这些问题可通过主机与外设间的接\n口完成。",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    },
+    {
+      "page": 132,
+      "text": "132",
+      "annotation_highlights": [],
+      "yellow_fill_text": [],
+      "yellow_pixel_ratio": 0.0
+    }
+  ],
+  "highlights": []
+}
